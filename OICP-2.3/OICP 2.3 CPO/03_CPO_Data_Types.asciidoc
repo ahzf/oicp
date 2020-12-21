@@ -225,7 +225,7 @@ AccessibilityLocation:<<AccessibilityLocationType,AccessibilityLocationType>>:In
 HotlinePhoneNumber:<<PhoneNumberType,PhoneNumberType>>:Phone number of a hotline of the charging station operator:M:
 AdditionalInfo:<<InfoTextType,InfoTextType List>>:Optional information.:O:200
 ChargingStationLocationReference:<<InfoTextType,InfoTextType List>>:Last meters information regarding the location of the Charging Station:O:
-GeoChargingPointEntrance:<<GeoCoordinatesType,GeoCoord inatesType>>:In case that the charging spot is part of a bigger facility (e.g. parking place), this attribute specifies the facilities entrance coordinates.:O:
+GeoChargingPointEntrance:<<GeoCoordinatesType,GeoCoordinatesType>>:In case that the charging spot is part of a bigger facility (e.g. parking place), this attribute specifies the facilities entrance coordinates.:O:
 IsOpen24Hours:Boolean:Set in case the charging spot is open 24 hours.:M:
 OpeningTimes:<<OpeningTimesType,OpeningTimesType>>:Opening time in case that the charging station cannot be accessed around the clock.:M/O:
 ClearinghouseID:String:Identification of the corresponding clearing house in the event that roaming between different clearing houses must be processed in the future.:O:20
