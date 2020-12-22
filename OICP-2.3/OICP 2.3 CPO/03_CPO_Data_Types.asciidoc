@@ -212,7 +212,7 @@ GeoCoordinates:<<GeoCoordinatesType,GeoCoordinatesType>>:Geolocation of the char
 Plugs:<<PlugType,PlugType List>>:List of plugs that are supported.:M:
 DynamicPowerLevel:Boolean:Informs is able to deliver different power outputs.:O:
 ChargingFacilities:<<ChargingFacilityType,ChargingFacilityType List>>:List of facilities that are supported.:M:
-RenewableEnergy:Boolean:If the Charging Station provides only renewable energy then the value must be” true”, if it use grey energy then value must be “false”.:M:
+RenewableEnergy:Boolean:If the Charging Station provides only renewable energy then the value must be” true”, if it uses grey energy then value must be “false”.:M:
 EnergySource:<<EnergySourceType,EnergySourceType List>>:Optional list of energy sources that the charging station uses to supply electric energy.:O:
 EnvironmentalImpact:<<EnvironmentalImpactType,EnvironmentalImpactType>>:Environmental Impact produced by the energy sources used by the charging point:O:
 CalibrationLawDataAvailability:<<CalibrationLawDataAvailabilityType,CalibrationLawDataAvailabilityType>>:This field gives the information how the charging station provides metering law data.:M:
