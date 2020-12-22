@@ -2,15 +2,14 @@
 
 Here you can find all documents and information about the open source OICP .
 
-The OICP protocol, created in 2012, now connects more than 300 companies in 26 countries in order to make EV charging easy and seamless for everyone.
+The OICP protocol, created in 2012, now connects more than 767 companies in 43 countries in order to make EV charging easy and seamless for everyone.
 
-## Release Candidates
-* [OICP 2.3](https://github.com/hubject/oicp/tree/master/OICP-2.3)
 ## Releases
+* [OICP 2.3](https://github.com/hubject/oicp/tree/master/OICP-2.3)
+* [OICP 2.2](https://github.com/hubject/oicp/releases/tag/v2.2) - (All new implementations need to be based on OICP 2.3)
+* [OICP 2.1](https://github.com/hubject/oicp/releases/tag/v2.1) - (All new implementations need to be based on OICP 2.3)
 
-* [OICP 2.2](https://github.com/hubject/oicp/releases/tag/v2.2) 
-* [OICP 2.1](https://github.com/hubject/oicp/releases/tag/v2.1) - (All new implementations need to be based on OICP 2.2)
-
+> **IMPORTANT**: From July 1st 2021 **OICP 2.1** will not be supported by Hubject 
 
 ## License
 [![CC BY-SA 4.0][cc-by-sa-shield]][cc-by-sa]

@@ -3,7 +3,7 @@
 image::images/hubjectlogo.png[align="right"]
 
 [[DataTypes]]
-= Data Types (Release Candidate)
+= Data Types
 
 :numbered:
 
@@ -40,8 +40,8 @@ IMPORTANT: *One of the following five options `MUST` be provided*
 
 [NOTE]
 ====
-. The option RFIDIdentification MUST not be used in the eRoamingAuthorization process. For RFID Authorization, only the option RFIDMifareFamilyIdentification should be used in the respective eRoamingAuthorization messages.
-. For the Remote Authorization process, only the option RemoteIdentification MUST be used in the respective messages.
+. The option RFIDIdentification `MUST` not be used in the eRoamingAuthorization process. For RFID Authorization, only the option RFIDMifareFamilyIdentification `SHOULD` be used in the respective eRoamingAuthorization messages.
+. For the Remote Authorization process, only the option RemoteIdentification `MUST` be used in the respective messages.
 ====
 
 [[EvseMatchType]]
@@ -118,7 +118,7 @@ Identification: <<IdentificationType,IdentificationType>>:Authentication data: M
 |Name |Data Type |Description|M/O|Field Length
 |UID|<<UIDType,UIDType>>|The UID from the RFID-Card.
 
-It should be read from left to right using big-endian format.
+It `SHOULD` be read from left to right using big-endian format.
 
 Hubject will automatically convert all characters from lower case to upper case |M |50
 |=====
@@ -130,13 +130,8 @@ Hubject will automatically convert all characters from lower case to upper case 
 |=====
 |Name |Data Type |Description|M/O|Field Length
 |EvcoID|<<EvcoIDType,EvcoIDType>>|Contract identifier Hubject will automatically convert all characters from lower case to upper case |M |
-|PIN|String
-1.2+|According to different processes, the PIN is transferred as encrypted hash or in clear text.
-1.2+|O
-
-One or none of the options can be provided.
-|20
-|HashedPIN|<<HashType,HashType>>|
+|HashedPIN|<<HashedPINType,HashedPINType>>|The hashed pin information. This field can be provided only when uploading Authentication data. In Authorization requests this field must be null!|O|
+|PIN|String|The pin number, this field is required in Authorization requests!|O|0-20
 |=====
 
 [[PlugAndChargeIdentificationType]]
@@ -170,7 +165,7 @@ Floor:String:O:5
 Region:String:O:50
 ParkingFacility:Boolean:O:
 ParkingSpot:String:O:5
-Timezone:<<TimezoneType,TimezoneType>>:O:
+TimeZone:<<TimeZoneType,TimeZoneType>>:O:
 |=====================
 
 [[SearchCenterType]]
@@ -203,7 +198,7 @@ lastUpdate:Date/Time:The attribute indicates the date and time of the last updat
 EvseID:<<EvseIDType,EvseIDType>>:The ID that identifies the charging spot.:M:
 ChargingPoolID:<<ChargingPoolIDType,ChargingPoolIDType>>:The ID that identifies the charging station.:O:
 ChargingStationId:String:The ID that identifies the charging station.:O:50
-ChargingStationNames:List <<InfoTextType,InfoTextType>>:Name of the charging station:M:5
+ChargingStationNames:List <<InfoTextType,InfoTextType>>:Name of the charging station:M:
 HardwareManufacturer:String:Name of the charging point manufacturer:O:50
 ChargingStationImage:String:URL that redirect to an online image of the related EVSEID:O:200
 SubOperatorName:String:Name of the Sub Operator owning the Charging Station:O:100
@@ -212,8 +207,8 @@ GeoCoordinates:<<GeoCoordinatesType,GeoCoordinatesType>>:Geolocation of the char
 Plugs:<<PlugType,PlugType List>>:List of plugs that are supported.:M:
 DynamicPowerLevel:Boolean:The Charging Station is able to deliver different power outputs.:O:
 ChargingFacilities:<<ChargingFacilityType,ChargingFacilityType List>>:List of facilities that are supported.:M:
-RenewableEnergy:Boolean:If the Charging Station provides only renewable energy then the value must be” true”, if it uses grey energy then value must be “false”.:M:
-EnergySource:<<EnergySourceType,EnergySourceType List>>:Optional list of energy sources that the charging station uses to supply electric energy.:O:
+RenewableEnergy:Boolean:If the Charging Station provides only renewable energy then the value `MUST` be” true”, if it use grey energy then value `MUST` be “false”.:M:
+EnergySource:<<EnergySourceType,EnergySourceType List>>:List of energy source that the charging station uses to supply electric energy.:O:
 EnvironmentalImpact:<<EnvironmentalImpactType,EnvironmentalImpactType>>:Environmental Impact produced by the energy sources used by the charging point:O:
 CalibrationLawDataAvailability:<<CalibrationLawDataAvailabilityType,CalibrationLawDataAvailabilityType>>:This field gives the information how the charging station provides metering law data.:M:
 AuthenticationModes:<<AuthenticationModeType,AuthenticationModeType List>>:List of authentication modes that are supported.:M:
@@ -227,8 +222,9 @@ AdditionalInfo:<<InfoTextType,InfoTextType List>>:Optional information.:O:200
 ChargingStationLocationReference:<<InfoTextType,InfoTextType List>>:Last meters information regarding the location of the Charging Station:O:
 GeoChargingPointEntrance:<<GeoCoordinatesType,GeoCoordinatesType>>:In case that the charging spot is part of a bigger facility (e.g. parking place), this attribute specifies the facilities entrance coordinates.:O:
 IsOpen24Hours:Boolean:Set in case the charging spot is open 24 hours.:M:
-OpeningTimes:<<OpeningTimesType,OpeningTimesType>>:Opening time in case that the charging station cannot be accessed around the clock.:M/O:
-ClearinghouseID:String:Identification of the corresponding clearing house in the event that roaming between different clearing houses must be processed in the future.:O:20
+OpeningTimes:<<OpeningTimesType,OpeningTimesType List>>:Opening time in case that the charging station cannot be accessed around the clock.:M/O:
+HubOperatorID:<<OperatorIDType,OperatorIDType>>:Hub operator:O:
+ClearinghouseID:String:Identification of the corresponding clearing house in the event that roaming between different clearing houses `MUST` be processed in the future.:O:20
 IsHubjectCompatible:Boolean:Is eRoaming via intercharge at this charging station possible? If set to "false" the charge spot will not be started/stopped remotely via Hubject.:M:
 DynamicInfoAvailable:Enumeration:Values; true / false / auto This attribute indicates whether a CPO provides (dynamic) EVSE Status info in addition to the (static) EVSE Data for this EVSERecord. Value auto is set to true by Hubject if the operator offers Hubject EVSEStatus data.:M:
 |=====================
@@ -255,14 +251,24 @@ EvseID:<<EvseIDType,EvseIDType>>:The ID that identifies the charging spot.:M
 EvseStatus:<<EvseStatusType,EvseStatusType>>:The status of the charging spot.:M
 |=====================
 
-[[HashType]]
-=== HashType
+[[HashedPINType]]
+=== HashedPINType
 [%header,format=dsv, cols=5]
 |=====================
 Name:Data Type:Description:M/O:Field Length
-Value:<<HashValueType,HashValueType>>:Hash value.: M:
+Value:<<HashValueType,HashValueType>>:Hash value created by partner:M:
 Function:<<HashFunctionType,HashFunctionType>>:Function that was used to generate the hash value.:M:
-Salt:String:In case that a salt value was used to generate the hash value (e.g. salted SHA-1 hash) the salt can be provided in this field. Where the Hash Function is Bcrypt, this value is undefined.:O:100
+LegacyHashData:<<LegacyHashDataType,LegacyHashDataType>>:Field for hashing data related to OICP v2.1. It is unused in later versions.:O:
+|=====================
+
+[[LegacyHashDataType]]
+=== LegacyHashDataType
+[%header,format=dsv, cols=5]
+|=====================
+Name:Data Type:Description:M/O:Field Length
+Function:Enum (MD5,SHA-1):Function used for hashing of the PIN at the partner.:M:
+Salt:String:The salt value used by the partner for hashing the PIN.:O:0-100
+Value:String:PIN hash at the partner.:O:0-20
 |=====================
 
 [[ChargingFacilityType]]
@@ -271,7 +277,7 @@ Salt:String:In case that a salt value was used to generate the hash value (e.g. 
 [%header,format=dsv, cols=5]
 |=====================
 Name:Data Type:Description:M/O:Field Length
-PowerType:<<PowerType,PowerType List>>:Charging Facility power type (e.g. AC or DC): M:
+PowerType:<<PowerType,PowerType>>:Charging Facility power type (e.g. AC or DC): M:
 Voltage:Integer:Voltage of the Charging Facility:O:3
 Amperage:Integer:Amperage of the Charging Facility:O:2
 Power:Integer:Charging Facility power in kW:M:3
@@ -297,11 +303,11 @@ PricingProductDataRecords:<<PricingProductDataRecordType,PricingProductDataRecor
 [%header,format=dsv, cols=5]
 |=====================
 Name:Data Type:Description:M/O:Field Length
-ProductID:<<ProductIDType,ProductIDType>>:A pricing product name (for identifying a tariff) that must be unique: M:50
+ProductID:<<ProductIDType,ProductIDType>>:A pricing product name (for identifying a tariff) that `MUST` be unique: M:50
 ReferenceUnit:<<ReferenceUnitType,ReferenceUnitType>>:Reference unit in time or kWh:M:
 ProductPriceCurrency:<<CurrencyIDType,CurrencyIDType>>:Currency for default prices:M:
 MaximumProductChargingPower:Decimal:A value in kWh:M:
-IsValid24hours:Boolean:Set to TRUE if the respective pricing product is applicable 24 hours a day. If FALSE, the respective applicability times should be provided in the field “ProductAvailabilityTimes”.:M:
+IsValid24hours:Boolean:Set to TRUE if the respective pricing product is applicable 24 hours a day. If FALSE, the respective applicability times `SHOULD` be provided in the field “ProductAvailabilityTimes”.:M:
 ProductAvailabilityTimes:<<ProductAvailabilityTimesType,ProductAvailabilityTimesType>>:A list indicating when the pricing product is applicable:M:
 AdditionalReferences:<<AdditionalReferencesType,AdditionalReferencesType>>:A list of additional reference units and their respective prices:O:0...n
 |=====================
@@ -329,8 +335,8 @@ ProductID:<<ProductIDType,ProductIDType>>:The product name of the applicable pri
 [%header,format=dsv, cols=5]
 |=====================
 Name:Data Type:Description:M/O:Field Length
-Periods:<<PeriodType,PeriodType>>:The starting and end time for pricing product applicability in the specified period:M:
-On:enum (Everyday, Workdays, Weekend, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday):Day values to be used in specifying periods on which the product is available:M:
+Period:<<PeriodType,PeriodType>>:The starting and end time for pricing product applicability in the specified period:M:
+on:enum (Everyday, Workdays, Weekend, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday):Day values to be used in specifying periods on which the product is available:M:
 |=====================
 
 [[AdditionalReferencesType]]
@@ -363,7 +369,7 @@ Pattern:
 [%header,format=dsv, cols=5]
 |=====================
 Name:Data Type:Description:M/O:Field Length
-UID:<<UIDType,UIDType>>:The UID from the RFID-Card. It should be read´from left to right using big-endian format. Hubject will automatically convert all characters from lower case to upper case:M:
+UID:<<UIDType,UIDType>>:The UID from the RFID-Card. It `SHOULD` be read´from left to right using big-endian format. Hubject will automatically convert all characters from lower case to upper case:M:
 EvcoID: <<EvcoIDType,EvcoIDType>>:Contract identifier:O:
 RFID:<<RFIDType,RFIDType>>:The Type of the used RFID card like mifareclassic, desfire:M:
 PrintedNumber:String:A number printed on a customer’s card for manual authorization (e.q. via a call center):O:150
@@ -403,7 +409,7 @@ EVSEPricing:<<EVSEPricingType,EVSEPricingType>>:List of EVSE pricings offered by
 [%header,format=dsv, cols=5]
 |=====================
 Name:Data Type:Description:M/O:Field Length
-Energy:<<EnergyType,EnergyType>>::M:
+Energy:<<EnergyType,EnergyType>>::O:
 Percentage:Integer:Percentage of EnergyType being used by the charging stations:O:2
 |=====================
 
@@ -418,14 +424,29 @@ NuclearWaste:Decimal:Total NuclearWaste emited by the energy source being used b
 
 [[SignedMeteringValuesType]]
 === SignedMeteringValuesType
-[%header,format=dsv, cols=5]
-|=====================
-Name:Data Type:Description:M/O:Field Length
-SignedMeteringValue:String: Metering signature value provided by the charging station:O:3000
-MeteringStatus:<<MeteringStatusType,MeteringStatusType>>:The status type of the metering signature provided (e.g. Start, Progress, End):O:
-|=====================
+[%header]
+|=====
+|Name|Data Type|Description|M/O|Field Length
+|SignedMeteringValue|String| Metering signature value (in the Transparency software format)
 
-NOTE: Thie MeteringSignatureValue format provided must be supported by the Transparency Software
+SignedMeteringValue `SHOULD` be always sent in following order
+
+1.SignedMeteringValue for Metering Status “Start”
+
+2.SignedMeteringValue for Metering Status “Progress1”
+
+3.SignedMeteringValue for Metering Status “Progress2”
+
+4.…
+
+5.SignedMeteringValue for Metering Status “Progress8”
+
+6.SignedMeteringValue for Metering Status “End”
+|O|3000
+|MeteringStatus|<<MeteringStatusType,MeteringStatusType>>|The status type of the metering signature provided (e.g. Start, Progress, End)|O|
+|=====
+
+NOTE: The MeteringSignatureValue format provided `MUST` be supported by the Transparency Software used by the CPO
 
 [[CalibrationLawVerificationType]]
 === CalibrationLawVerificationType
@@ -433,12 +454,14 @@ NOTE: Thie MeteringSignatureValue format provided must be supported by the Trans
 |=====
 |Name|Data Type|Description|M/O|Field Length
 |CalibrationLawCertificateID|String| The Calibration Law Compliance ID from respective authority along with the revision and issueing date (Compliance ID : Revision : Date) For eg PTB - X-X-XXXX : V1 : 01Jan2020|O|100
-|PublicKey|String|Unique PublicKey for charging station can be provided here|O|1000
-|MeteringSignatureUrl|String|In this field additional information about Calibration law complaint charging session can be provided.|O|200
+|PublicKey|String|Unique PublicKey for EVSEID can be provided here|O|1000
+|MeteringSignatureUrl|String|In this field CPO can also provide a url for xml file. This xml file can give the compiled Calibration Law Data information which can be simply added to invoices for Customer of EMP.
+
+The information can contain for eg Charging Station Details, Charging Session Date/Time, SignedMeteringValues (Transparency Software format), SignedMeterValuesVerificationInstruction etc.
+|O|200
 |MeteringSignatureEncodingFormat|String|Encoding format of the metering signature data as well as the version (e.g. EDL40 Mennekes: V1)|O|50
 |SignedMeteringValuesVerificationInstruction|String|Additional information (e.g. instruction on how to use the transparency software)|O|400
 |=====
-
 
 [[SimpleSpecificationDataTypes]]
 == Simple Specification Data Types
@@ -667,7 +690,7 @@ MINUTE:	Defined Reference Unit Type
 |=====================
 Option:Description
 START FEE	: Can be used in case a fixed fee is charged for the initiation of the charging session. This is a fee charged on top of the main base price defined in the field "PricePerReferenceUnit" for any particular pricing product.
-FIXED FEE	: Can be used if a single price is charged irrespective of charging duration or energy consumption (for instance if all sessions are to be charged a single fixed fee). When used, the value set in the field "PricePerReferenceUnit" for the main base price of respective pricing product should be set to zero.
+FIXED FEE	: Can be used if a single price is charged irrespective of charging duration or energy consumption (for instance if all sessions are to be charged a single fixed fee). When used, the value set in the field "PricePerReferenceUnit" for the main base price of respective pricing product `SHOULD` be set to zero.
 PARKING FEE	: Can be used in case sessions are to be charged for both parking and charging. When used, it needs to be specified in the corresponding service offer on the HBS Portal when parking applies (e.g. from session start to charging start and charging end to session end or for the entire session duration, or x-minutes after charging end, etc)
 MINIMUM FEE	: Can be used in case there is a minimum fee to be paid for all charging sessions. When used, this implies that the eventual price to be paid cannot be less than this minimum fee but can however be a price above/greater than the minimum fee.
 MAXIMUM FEE	: Can be used in case there is a maximum fee to be charged for all charging sessions. When used, this implies that the eventual price to be paid cannot be more than this maximum fee but can however be a price below/lower than the maximum fee.
@@ -678,7 +701,7 @@ MAXIMUM FEE	: Can be used in case there is a maximum fee to be charged for all c
 [%header,format=dsv, cols=2]
 The ProductPriceCurrencyType allows for the list of active codes of the official ISO 4217 currency names.
 
-For the full list of active codes of the official ISO 4217 currencies, see: https://en.wikipedia.org/wiki/ISO_4217
+For the full list of active codes of the official ISO 4217 currencies, see: https://www.iso.org/iso-4217-currency-codes.html
 
 *Examples*:
 [%header,format=dsv, cols=2]
@@ -707,10 +730,10 @@ mifareFamily	: Defined RFID Type
 [%header,format=dsv, cols=2]
 |=====================
 Option:Description
-On Street :  The charging station is located on the street
-Parking Lot : The Charging Point is located inside a Parking Lot
-Parking Garage :  The Charging Point is located inside a Parking Garage
-Underground Parking Garage:  The Charging Point is located inside an Underground Parking Garage
+OnStreet :  The charging station is located on the street
+ParkingLot : The Charging Point is located inside a Parking Lot
+ParkingGarage :  The Charging Point is located inside a Parking Garage
+UndergroundParkingGarage:  The Charging Point is located inside an Underground Parking Garage
 |=====================
 
 [[EnergyType]]
@@ -720,13 +743,13 @@ Underground Parking Garage:  The Charging Point is located inside an Underground
 Option:Description
 Solar	:	Energy coming from Solar radiation
 Wind	:	Energy produced by wind
-Hydro Power	:	Energy produced by the movement of water
-Geothermal Energy	:	Energy coming from the sub-surface of the earth
+HydroPower	:	Energy produced by the movement of water
+GeothermalEnergy	:	Energy coming from the sub-surface of the earth
 Biomass	:	Energy produced using plant or animal material as fuel
 Coal	:	Energy produced using coal as fuel
-Nuclear Energy	:	Energy being produced by nuclear fission
+NuclearEnergy	:	Energy being produced by nuclear fission
 Petroleum	:	Energy produced by using Petroleum as fuel
-Natural Gas	:	Energy produced using Natural Gas as fuel
+NaturalGas	:	Energy produced using Natural Gas as fuel
 |=====================
 
 [[CalibrationLawDataAvailabilityType]]
@@ -797,13 +820,13 @@ A string that `MUST` be valid with respect to the following regular expression: 
 
  ^(([A-Za-z]{2}\-?[A-Za-z0-9]{3}\-?C[A-Za-z0-9]{8}\-?[\d|A-Za-z])|([A-Za-z]{2}[\*|\-]?[A-Za-z0-9]{3}[\*|\-]?[A-Za-z0-9]{6}[\*|\-]?[\d|X]))$
 
-The expression validates the string as EvcoID. It supports both definitions DIN SPEC 91286:2011-11 as well as
-ISO 15118-1.
+The expression validates the string as EvcoID. It supports both definitions https://www.din.de/en/wdc-beuth:din21:145915787[DIN SPEC 91286:2011-11] as well as
+https://www.iso.org/standard/55365.html[ISO 15118-1].
 
-In case the EvcoID is provided corresponding to ISO, the instance part must be eight characters long and must be
-provided with a prepended “C”. The optional separating character must be “-“.
+In case the EvcoID is provided corresponding to ISO, the instance part `MUST` be eight characters long and `MUST` be
+provided with a prepended “C”. The optional separating character `MUST` be “-“.
 
-In case the EvcoID is provided corresponding to DIN, the instance part must be six characters long. The optional
+In case the EvcoID is provided corresponding to DIN, the instance part `MUST` be six characters long. The optional
 separating character can either be “*” or “-“.
 
 Examples ISO: *“DE-8EO-CAet5e4XY-3”*, *“DE8EOCAet5e43X1”*
@@ -816,11 +839,11 @@ A string that `MUST` be valid with respect to the following regular expression: 
 
  ^(([A-Za-z]{2}\*?[A-Za-z0-9]{3}\*?E[A-Za-z0-9\*]{1,30})|(\+?[0-9]{1,3}\*[0-9]{3}\*[0-9\*]{1,32}))$
 
-The expression validates the string as EvseID. It supports both definitions DIN SPEC 91286:2011-11 as well as ISO 15118-1.
+The expression validates the string as EvseID. It supports both definitions https://www.din.de/en/wdc-beuth:din21:145915787[DIN SPEC 91286:2011-11] as well as https://www.iso.org/standard/55365.html[ISO 15118-1].
 
-In case the EvseID is provided corresponding to ISO, the country code must be provided as Alpha-2-Code (DIN EN ISO-3166-1) and the separator character “*” is optional. Furthermore the ID must provide an “E” after the OperatorID in order to identify the ID as ISO EvseID without doubt.
+In case the EvseID is provided corresponding to ISO, the country code `MUST` be provided as Alpha-2-Code (https://www.iso.org/iso-3166-country-codes.html[DIN EN ISO-3166-1]) and the separator character “*” is optional. Furthermore the ID `MUST` provide an “E” after the OperatorID in order to identify the ID as ISO EvseID without doubt.
 
-In case the EvseID is provided corresponding to DIN, the country code must be provided according to the international telecommunication numbering plan (ITU-T E.164:11/2010) and the separator character “*” is mandatory.
+In case the EvseID is provided corresponding to DIN, the country code `MUST` be provided according to the international telecommunication numbering plan (https://www.itu.int/itu-t/recommendations/rec.aspx?rec=E.164#:~:text=164%20(11%2F2010),-%D8%B9%D8%B1%D8%A8%D9%8A%20%7C%20%E4%B8%AD%E6%96%87%20%7C%20English&text=Recommendation%20ITU%2DT%20E.,GoC)%20and%20resources%20for%20trials[ITU-T E.164:11/2010]) and the separator character “*” is mandatory.
 
 Examples ISO: *“DE*AB7*E840*6487”*, *“DEAB7E8406487”*
 
@@ -833,9 +856,9 @@ A string that `MUST` be valid with respect to the following regular expression: 
  ^([A-Za-z]{2}\-?[A-Za-z0-9]{3}|[A-Za-z]{2}[\*|-]?[A-Za-z0-9]{3})$
 
 The expression validates the string as ProviderID including the preceding country code, which is part of EvcoID. It
-supports both definitions DIN SPEC 91286:2011-11 as well as ISO 15118-1.
+supports both definitions https://www.din.de/en/wdc-beuth:din21:145915787[DIN SPEC 91286:2011-11] as well as https://www.iso.org/standard/55365.html[ISO 15118-1].
 
-In case the ProviderID is provided corresponding to ISO, the country code must be provided as Alpha-2-Code (DIN
+In case the ProviderID is provided corresponding to ISO, the country code `MUST` be provided as Alpha-2-Code (DIN
 EN ISO-3166-1) and the separator character “-” is optional.
 
 Examples ISO: *“DE8EO”*, *“DE-8EO”*
@@ -849,12 +872,12 @@ A string that `MUST` be valid with respect to the following regular expression: 
  ^(([A-Za-z]{2}\*?[A-Za-z0-9]{3})|(\+?[0-9]{1,3}\*[0-9]{3}))$
 
 The expression validates the string as OperatorID including the preceding country code, which is part of EvseID. It
-supports both definitions DIN SPEC 91286:2011-11 as well as ISO 15118.
-In case the OperatorID is provided corresponding to ISO, the country code must be provided as Alpha-2-Code (DIN
+supports both definitions https://www.din.de/en/wdc-beuth:din21:145915787[DIN SPEC 91286:2011-11] as well as https://www.iso.org/standard/55365.html[ISO 15118].
+In case the OperatorID is provided corresponding to ISO, the country code `MUST` be provided as Alpha-2-Code (DIN
 EN ISO-3166-1) and the separator character “*” is optional.
 
-In case the OperatorID is provided corresponding to DIN, the country code must be provided according to the
-international telecommunication numbering plan (ITU-T E.164:11/2010) and the separator character “*” is
+In case the OperatorID is provided corresponding to DIN, the country code `MUST` be provided according to the
+international telecommunication numbering plan (https://www.itu.int/itu-t/recommendations/rec.aspx?rec=E.164#:~:text=164%20(11%2F2010),-%D8%B9%D8%B1%D8%A8%D9%8A%20%7C%20%E4%B8%AD%E6%96%87%20%7C%20English&text=Recommendation%20ITU-T%20E.,GoC)%20and%20resources%20for%20trials[ITU-T E.164:11/2010]) and the separator character “*” is
 mandatory.
 
 Examples ISO: *“DE*A36”*, *“DEA36”*
@@ -923,7 +946,7 @@ Examples: *“AFFH1768”*, *“7568290FFF765F”*
 
 [[HashValueType]]
 === HashValueType
- ^[0-9A-Za-z]{10,100}$
+ ^[0-9A-Za-z\\.+/=\\$]{10,100}$
 
 The expression validates the string as a hash function result value with a length between 10 and 100 characters
 
@@ -939,7 +962,7 @@ The LanguageCodeType is used in the AdditionalInfo field, which is part of the E
 
 [[ChargingPoolIDType]]
 === ChargingPoolIDType
-EVSEs may be grouped by using a charging pool id according to emi³ standard definition. The Evse Pool ID MUST
+EVSEs may be grouped by using a charging pool id according to emi³ standard definition. The Evse Pool ID `MUST`
 match the following structure (the notation corresponds to the augmented Backus-Naur Form (ABNF) as defined in
 RFC5234):
 
@@ -979,8 +1002,8 @@ This leads to the following regular expression:
 
 This regular expression is similar to that of the ISO EvseIDType but E is replaced with P to indicate a pool.
 
-[[TimezoneType]]
-=== TimezoneType
+[[TimeZoneType]]
+=== TimeZoneType
  [U][T][C][+,-][0-9][0-9][:][0-9][0-9]
 
 The expression validates a string as a Time zone with UTC offset.
@@ -989,10 +1012,3 @@ Examples:
 
 - UTC+01:00
 - UTC-05:00
-
-
-
-
-
-
-

@@ -2,7 +2,7 @@
 :numbered:
 
 [[appendix]]
-== Appendix (Release Candidate)
+== Appendix
 
 [[BusinessProcessDiagrameRoamingAuthorization]]
 === Business Process Diagram eRoamingAuthorization
@@ -58,4 +58,3 @@ image::images/chargingnotificationend.png[]
 === Business Process Diagram eRoaming ChargingNotification Error
 
 image::images/chargingnotificationerror.png[]
-
