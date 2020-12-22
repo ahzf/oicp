@@ -210,7 +210,7 @@ SubOperatorName:String:Name of the Sub Operator owning the Charging Station:O:10
 Address:<<AddressIso19773Type,AddressIso19773Type>>:Address of the charging station.:M:
 GeoCoordinates:<<GeoCoordinatesType,GeoCoordinatesType>>:Geolocation of the charging station.:O:100
 Plugs:<<PlugType,PlugType List>>:List of plugs that are supported.:M:
-DynamicPowerLevel:Boolean:Informs is able to deliver different power outputs.:O:
+DynamicPowerLevel:Boolean:The Charging Station is able to deliver different power outputs.:O:
 ChargingFacilities:<<ChargingFacilityType,ChargingFacilityType List>>:List of facilities that are supported.:M:
 RenewableEnergy:Boolean:If the Charging Station provides only renewable energy then the value must be” true”, if it uses grey energy then value must be “false”.:M:
 EnergySource:<<EnergySourceType,EnergySourceType List>>:Optional list of energy sources that the charging station uses to supply electric energy.:O:
