@@ -442,7 +442,7 @@ SignedMeteringValue `SHOULD` be always sent in following order
 5.SignedMeteringValue for Metering Status “Progress8”
 
 6.SignedMeteringValue for Metering Status “End”
-|O|3000
+|M|3000
 |MeteringStatus|<<MeteringStatusType,MeteringStatusType>>|The status type of the metering signature provided (e.g. Start, Progress, End)|O|
 |=====
 
