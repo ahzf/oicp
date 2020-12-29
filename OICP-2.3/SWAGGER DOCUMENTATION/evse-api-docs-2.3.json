@@ -11,7 +11,7 @@
       "name": "EVSE Status API v2.1 operations",
       "description": "Pull Evse Status Controller"
     },
-    {
+    {OperatorEVSEData
       "name": "EVSE Data API v2.3 operations",
       "description": "Pull Evse Data Controller 23"
     }
@@ -1776,7 +1776,9 @@
     "OperatorEvseData": {
       "type": "object",
       "required": [
-        "OperatorID"
+        "EvseDataRecord",
+        "OperatorID",
+        "OperatorName"
       ],
       "properties": {
         "EvseDataRecord": {
