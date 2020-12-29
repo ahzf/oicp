@@ -185,7 +185,7 @@ Radius:Decimal (4,1):Radius in km around the position that is defined by the geo
 Name:Data Type:Description:M/O:Field Length
 OperatorID:<<OperatorIDType,OperatorIDType>>:The provider whose data records are listed below. : M:
 OperatorName:String:Free text for operator:M:100
-EvseDataRecord:<<EvseDataRecordType,EvseDataRecordType>>:EVSE entries:M 0...n:
+EvseDataRecord:<<EvseDataRecordType,EvseDataRecordType>>:EVSE entries:M 1...n:
 |=====================
 
 [[EvseDataRecordType]]
@@ -238,8 +238,8 @@ DynamicInfoAvailable:Enumeration:Values; true / false / auto This attribute indi
 |=====================
 Name:Data Type:Description:M/O:Field Length
 OperatorID:<<OperatorIDType,OperatorIDType>>:The provider whose data records are listed below. : M:
-OperatorName:String:Free text for operator:O:100
-EvseStatusRecord:<<EvseStatusRecordType,EvseStatusRecordType>>:EvseStatus list:M  0...n:
+OperatorName:String:Free text for operator:M:100
+EvseStatusRecord:<<EvseStatusRecordType,EvseStatusRecordType>>:EvseStatus list:M  1...n:
 |=====================
 
 [[EvseStatusRecordType]]
