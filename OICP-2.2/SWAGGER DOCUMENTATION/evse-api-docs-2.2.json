@@ -1246,7 +1246,9 @@
     "OperatorEvseData": {
       "type": "object",
       "required": [
-        "OperatorID"
+        "EvseDataRecord",
+        "OperatorID",
+        "OperatorName"
       ],
       "properties": {
         "EvseDataRecord": {
@@ -1264,7 +1266,7 @@
         "OperatorName": {
           "type": "string",
           "description": "Operator name.",
-          "minLength": 0,
+          "minLength": 1,
           "maxLength": 100
         }
       },
@@ -1273,7 +1275,9 @@
     "OperatorEvseStatus": {
       "type": "object",
       "required": [
-        "OperatorID"
+        "EvseStatusRecord",
+        "OperatorID",
+        "OperatorName"
       ],
       "properties": {
         "EvseStatusRecord": {
@@ -1291,7 +1295,7 @@
         "OperatorName": {
           "type": "string",
           "description": "Operator name.",
-          "minLength": 0,
+          "minLength": 1,
           "maxLength": 100
         }
       },
