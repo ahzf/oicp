@@ -712,11 +712,7 @@
     "ERoamingPullEvseData": {
       "type": "object",
       "required": [
-        "Accessibility",
-        "AuthenticationModes",
         "GeoCoordinatesResponseFormat",
-        "IsHubjectCompatible",
-        "IsOpen24Hours",
         "ProviderID"
       ],
       "properties": {
