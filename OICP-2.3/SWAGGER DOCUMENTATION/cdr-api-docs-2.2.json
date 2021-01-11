@@ -256,7 +256,10 @@
         "Identification",
         "SessionEnd",
         "SessionID",
-        "SessionStart"
+        "SessionStart",
+        "ChargingStart",
+        "ChargingEnd",
+        "ConsumedEnergy"
       ],
       "properties": {
         "CPOPartnerSessionID": {
